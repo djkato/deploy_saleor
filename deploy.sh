@@ -416,6 +416,7 @@ else
                 sudo -u $UN git clone https://github.com/mirumee/saleor.git
         else
                 # Get the Mirumee repo
+                echo "Cloning $REPO"
                 sudo -u $UN git clone $REPO 
 
                 ###### For possible later use ######

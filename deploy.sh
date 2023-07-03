@@ -26,7 +26,7 @@ IN=$(uname -a)
 arrIN=(${IN// / })
 IN2=${arrIN[3]}
 arrIN2=(${IN2//-/ })
-OS=${arrIN2[1]}
+OS=Debian
 #########################################################################################
 
 
@@ -125,6 +125,9 @@ while [ -n "$1" ]; do # while loop starts
 	esac
 	shift
 done
+vOPT="true"
+VERSION="3.14.2"
+REPO="https://github.com/saleor/saleor.git"
 #########################################################################################
 
 
@@ -413,7 +416,7 @@ else
                 sudo -u $UN git clone https://github.com/mirumee/saleor.git
         else
                 # Get the Mirumee repo
-                sudo -u $UN git clone https://github.com/mirumee/saleor.git
+                sudo -u $UN git clone $REPO 
 
                 ###### For possible later use ######
                 # Get the forked repo from thewhiterabbit

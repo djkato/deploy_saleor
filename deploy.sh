@@ -467,17 +467,17 @@ VERSION=3.0.0
 if [ -f "$HD/saleor/saleor/settings.py" ]; then
         sudo rm $HD/saleor/saleor/settings.py
 fi
-sudo cp $HD/Deploy_Saleor/resources/saleor/$VERSION-settings.py $HD/saleor/saleor/settings.py
+sudo cp $HD/deploy_saleor/resources/saleor/$VERSION-settings.py $HD/saleor/saleor/settings.py
 # Replace the populatedb.py file with the production version
 if [ -f "$HD/saleor/saleor/core/management/commands/populatedb.py" ]; then
         sudo rm $HD/saleor/saleor/core/management/commands/populatedb.py
 fi
-sudo cp $HD/Deploy_Saleor/resources/saleor/$VERSION-populatedb.py $HD/saleor/saleor/core/management/commands/populatedb.py
+sudo cp $HD/deploy_saleor/resources/saleor/$VERSION-populatedb.py $HD/saleor/saleor/core/management/commands/populatedb.py
 # Replace the test_core.py file with the production version
 #if [ -f "$HD/saleor/saleor/core/tests/test_core.py" ]; then
 #        sudo rm $HD/saleor/saleor/core/tests/test_core.py
 #fi
-#sudo cp $HD/Deploy_Saleor/resources/saleor/test_core.py $HD/saleor/saleor/core/tests/
+#sudo cp $HD/deploy_saleor/resources/saleor/test_core.py $HD/saleor/saleor/core/tests/
 wait
 # Does an old saleor.service file exist?
 if [ -f "/etc/systemd/system/saleor.service" ]; then
@@ -489,7 +489,7 @@ fi
 if [ "vOPT" = "true" ] || [ "$REPO" = "mirumee" ]; then
         # Create the saleor service file
         sudo sed "s/{un}/$UN/
-                  s|{hd}|$HD|g" $HD/Deploy_Saleor/resources/saleor/template.service > /etc/systemd/system/saleor.service
+                  s|{hd}|$HD|g" $HD/deploy_saleor/resources/saleor/template.service > /etc/systemd/system/saleor.service
         wait
         # Does an old server block exist?
         if [ -f "/etc/nginx/sites-available/saleor" ]; then
@@ -500,12 +500,12 @@ if [ "vOPT" = "true" ] || [ "$REPO" = "mirumee" ]; then
         sudo sed "s|{hd}|$HD|g
                   s/{host}/$HOST/g
                   s|{static}|$STATIC_URL|g
-                  s|{media}|$MEDIA_URL|g" $HD/Deploy_Saleor/resources/saleor/server_block > /etc/nginx/sites-available/saleor
+                  s|{media}|$MEDIA_URL|g" $HD/deploy_saleor/resources/saleor/server_block > /etc/nginx/sites-available/saleor
         wait
 else
         # Create the new service file
         sudo sed "s/{un}/$UN/
-                  s|{hd}|$HD|g" $HD/Deploy_Saleor/resources/saleor/template.service > /etc/systemd/system/saleor.service
+                  s|{hd}|$HD|g" $HD/deploy_saleor/resources/saleor/template.service > /etc/systemd/system/saleor.service
         wait
         # Does an old server block exist?
         if [ -f "/etc/nginx/sites-available/saleor" ]; then
@@ -518,12 +518,12 @@ else
                   s/{host}/$HOST/g
                   s|{static}|$STATIC_URL|g
                   s|{media}|$MEDIA_URL|g
-                  s/{api_port}/$API_PORT/" $HD/Deploy_Saleor/resources/saleor/server_block > /etc/nginx/sites-available/saleor
+                  s/{api_port}/$API_PORT/" $HD/deploy_saleor/resources/saleor/server_block > /etc/nginx/sites-available/saleor
         wait
 fi
 # Create the production uwsgi initialization file
 sudo sed "s|{hd}|$HD|g
-          s/{un}/$UN/" $HD/Deploy_Saleor/resources/saleor/template.uwsgi > $HD/saleor/saleor/wsgi/prod.ini
+          s/{un}/$UN/" $HD/deploy_saleor/resources/saleor/template.uwsgi > $HD/saleor/saleor/wsgi/prod.ini
 if [ -d "/var/www/$HOST" ]; then
         sudo rm -R /var/www/$HOST
         wait
@@ -566,7 +566,7 @@ sudo sed "s|{dburl}|$DB_URL|
           s|{static}|$STATIC_URL|g
           s|{media}|$MEDIA_URL|g
           s/{adminemail}/$ADMIN_EMAIL/
-          s/{gqlorigins}/$QL_ORIGINS/" $HD/Deploy_Saleor/resources/saleor/template.env > $HD/saleor/.env
+          s/{gqlorigins}/$QL_ORIGINS/" $HD/deploy_saleor/resources/saleor/template.env > $HD/saleor/.env
 wait
 #########################################################################################
 
@@ -575,7 +575,7 @@ wait
 #########################################################################################
 # Copy the uwsgi_params file to /saleor/uwsgi_params
 #########################################################################################
-sudo cp $HD/Deploy_Saleor/resources/saleor/uwsgi_params $HD/saleor/uwsgi_params
+sudo cp $HD/deploy_saleor/resources/saleor/uwsgi_params $HD/saleor/uwsgi_params
 #########################################################################################
 
 
@@ -672,7 +672,7 @@ echo ""
 #########################################################################################
 # Call the dashboard deployment script - Disabled until debugged
 #########################################################################################
-source $HD/Deploy_Saleor/deploy-dashboard.sh
+source $HD/deploy_saleor/deploy-dashboard.sh
 #########################################################################################
 
 
@@ -697,14 +697,14 @@ if [ "$SAME_HOST" = "no" ]; then
         sed "s|{rm_app_host}|sudo rm -R /var/www/$APP_HOST|g
              s|{host}|$HOST|
              s|{gql_port}|$GQL_PORT|
-             s|{api_port}|$API_PORT|" $HD/Deploy_Saleor/template.undeploy > $HD/Deploy_Saleor/undeploy.sh
+             s|{api_port}|$API_PORT|" $HD/deploy_saleor/template.undeploy > $HD/deploy_saleor/undeploy.sh
         wait
 else
         BLANK=""
         sed "s|{rm_app_host}|$BLANK|g
              s|{host}|$HOST|
              s|{gql_port}|$GQL_PORT|
-             s|{api_port}|$API_PORT|" $HD/Deploy_Saleor/template.undeploy > $HD/Deploy_Saleor/undeploy.sh
+             s|{api_port}|$API_PORT|" $HD/deploy_saleor/template.undeploy > $HD/deploy_saleor/undeploy.sh
         wait
 fi
 #########################################################################################

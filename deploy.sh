@@ -459,6 +459,9 @@ sleep 2
 #########################################################################################
 # Replace any parameter slugs in the template files with real paramaters & write them to
 # the production files
+#
+# ALSO replace version variable with the one that files exist for...
+VERSION=3.0.0
 #########################################################################################
 # Replace the settings.py with the production version
 if [ -f "$HD/saleor/saleor/settings.py" ]; then

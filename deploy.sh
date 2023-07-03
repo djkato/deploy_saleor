@@ -406,25 +406,22 @@ fi
 echo "Cloning Saleor from github..."
 echo ""
 # Check if the -v (version) option was used
-if [ "$vOPT" = "true" ]; then
+
+# Was a repo specified?
+if [ "$REPO" = "mirumee" ]; then
         # Get the Mirumee repo
         sudo -u $UN git clone https://github.com/mirumee/saleor.git
 else
-        # Was a repo specified?
-        if [ "$REPO" = "mirumee" ]; then
-                # Get the Mirumee repo
-                sudo -u $UN git clone https://github.com/mirumee/saleor.git
-        else
-                # Get the Mirumee repo
-                echo "Cloning $REPO"
-                sudo -u $UN git clone $REPO 
+        # Get the Mirumee repo
+        echo "Cloning $REPO"
+        sudo -u $UN git clone $REPO 
 
-                ###### For possible later use ######
-                # Get the forked repo from thewhiterabbit
-                #git clone https://github.com/mirumee/saleor.git
-                ###### For possible later use ######
-        fi
+        ###### For possible later use ######
+        # Get the forked repo from thewhiterabbit
+        #git clone https://github.com/mirumee/saleor.git
+        ###### For possible later use ######
 fi
+
 wait
 # Make sure we're in the project root directory for Saleor
 cd $HD/saleor
